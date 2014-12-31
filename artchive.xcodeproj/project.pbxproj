@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */; };
+		963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E81A52D26600FFBBEA /* CollectionViewController.swift */; };
 		96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FC21A4C2BEA00025807 /* AppDelegate.swift */; };
 		96F73FC51A4C2BEA00025807 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FC41A4C2BEA00025807 /* ViewController.swift */; };
 		96F73FC81A4C2BEA00025807 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC61A4C2BEA00025807 /* Main.storyboard */; };
 		96F73FCA1A4C2BEA00025807 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC91A4C2BEA00025807 /* Images.xcassets */; };
 		96F73FCD1A4C2BEA00025807 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FCB1A4C2BEA00025807 /* LaunchScreen.xib */; };
 		96F73FD91A4C2BEB00025807 /* artchiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FD81A4C2BEB00025807 /* artchiveTests.swift */; };
+		96F73FE31A4C48D600025807 /* AddArtworkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FE21A4C48D600025807 /* AddArtworkViewController.swift */; };
+		96F740171A50F33D00025807 /* artchive.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 96F740151A50F33D00025807 /* artchive.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkCollectionViewCell.swift; sourceTree = "<group>"; };
+		963086E81A52D26600FFBBEA /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		96F73FBD1A4C2BEA00025807 /* artchive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = artchive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F73FC11A4C2BEA00025807 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96F73FC21A4C2BEA00025807 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -36,6 +42,8 @@
 		96F73FD21A4C2BEB00025807 /* artchiveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = artchiveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F73FD71A4C2BEB00025807 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96F73FD81A4C2BEB00025807 /* artchiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = artchiveTests.swift; sourceTree = "<group>"; };
+		96F73FE21A4C48D600025807 /* AddArtworkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddArtworkViewController.swift; sourceTree = "<group>"; };
+		96F740161A50F33D00025807 /* artchive.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = artchive.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +64,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		967544B51A52CC4A0004B25D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		967544B61A52CC500004B25D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		967544B71A52CC560004B25D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				96F73FE21A4C48D600025807 /* AddArtworkViewController.swift */,
+				96F73FC41A4C2BEA00025807 /* ViewController.swift */,
+				963086E81A52D26600FFBBEA /* CollectionViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		967544B81A52CC5D0004B25D /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				96F73FC61A4C2BEA00025807 /* Main.storyboard */,
+				96F73FCB1A4C2BEA00025807 /* LaunchScreen.xib */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		967544B91A52CC630004B25D /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				96F73FC21A4C2BEA00025807 /* AppDelegate.swift */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
 		96F73FB41A4C2BEA00025807 = {
 			isa = PBXGroup;
 			children = (
@@ -77,11 +127,13 @@
 		96F73FBF1A4C2BEA00025807 /* artchive */ = {
 			isa = PBXGroup;
 			children = (
-				96F73FC21A4C2BEA00025807 /* AppDelegate.swift */,
-				96F73FC41A4C2BEA00025807 /* ViewController.swift */,
-				96F73FC61A4C2BEA00025807 /* Main.storyboard */,
+				967544B91A52CC630004B25D /* AppDelegate */,
+				967544B81A52CC5D0004B25D /* Interfaces */,
+				967544B71A52CC560004B25D /* ViewControllers */,
+				967544B61A52CC500004B25D /* Views */,
+				967544B51A52CC4A0004B25D /* Models */,
+				96F740151A50F33D00025807 /* artchive.xcdatamodeld */,
 				96F73FC91A4C2BEA00025807 /* Images.xcassets */,
-				96F73FCB1A4C2BEA00025807 /* LaunchScreen.xib */,
 				96F73FC01A4C2BEA00025807 /* Supporting Files */,
 			);
 			path = artchive;
@@ -161,6 +213,7 @@
 				TargetAttributes = {
 					96F73FBC1A4C2BEA00025807 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = H277RM8F6V;
 					};
 					96F73FD11A4C2BEB00025807 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -212,8 +265,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */,
 				96F73FC51A4C2BEA00025807 /* ViewController.swift in Sources */,
+				96F73FE31A4C48D600025807 /* AddArtworkViewController.swift in Sources */,
 				96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */,
+				96F740171A50F33D00025807 /* artchive.xcdatamodeld in Sources */,
+				963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,9 +393,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = artchive/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -346,9 +405,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = artchive/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -405,6 +466,7 @@
 				96F73FDE1A4C2BEB00025807 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		96F73FDF1A4C2BEB00025807 /* Build configuration list for PBXNativeTarget "artchiveTests" */ = {
 			isa = XCConfigurationList;
@@ -413,8 +475,22 @@
 				96F73FE11A4C2BEB00025807 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		96F740151A50F33D00025807 /* artchive.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				96F740161A50F33D00025807 /* artchive.xcdatamodel */,
+			);
+			currentVersion = 96F740161A50F33D00025807 /* artchive.xcdatamodel */;
+			path = artchive.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 96F73FB51A4C2BEA00025807 /* Project object */;
 }
