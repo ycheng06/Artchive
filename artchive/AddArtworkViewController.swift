@@ -18,11 +18,15 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
     let albumName = "artchive"
     var albumFound: Bool = false
     var assetCollection: PHAssetCollection!
-    var assetPlaceHolder:PHObjectPlaceholder?
+    var chosenImage:UIImage?
+    
     var context:NSManagedObjectContext!
     
     // Actions & Outlets
     @IBOutlet weak var artTitle: UITextField!
+    @IBOutlet weak var artArtist: UITextField!
+    @IBOutlet weak var artLocation: UITextField!
+    @IBOutlet weak var artYear: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     
     // Hide keyboard if view is tapped
@@ -38,17 +42,47 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
             var newArtwork = NSEntityDescription.insertNewObjectForEntityForName("Artwork", inManagedObjectContext: self.context) as Artwork
 
             newArtwork.title = titleText
-            if let imageLocalIdentifier:String = assetPlaceHolder?.localIdentifier {
-                newArtwork.imgRef = imageLocalIdentifier
+            
+            if !artArtist.text.isEmpty {
+                
             }
             
-            var error: NSError?
-            if !self.context.save(&error){
-                println("Could not save \(error), \(error?.userInfo)")
+            if !artLocation.text.isEmpty {
+                
             }
-            else{
-                println(newArtwork)
-                performSegueWithIdentifier("unwindToHomeScreen", sender: self)
+            
+            if !artYear.text.isEmpty {
+                
+            }
+
+            if let image = chosenImage{
+                var assetPlaceHolder:PHObjectPlaceholder?
+                
+                PHPhotoLibrary.sharedPhotoLibrary().performChanges({
+                    // Create Image and add it into album
+                    let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(image)
+                    
+                    // Save the local identifier from this place holder so image can be retrieved in the future
+                    assetPlaceHolder = createAssetRequest.placeholderForCreatedAsset
+                    
+                    newArtwork.imgRef = assetPlaceHolder?.localIdentifier
+                    println(newArtwork.imgRef)
+                    
+                    let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: self.assetCollection)
+                    
+                    albumChangeRequest.addAssets([assetPlaceHolder!])
+                        
+                },
+                completionHandler: {(success:Bool, error:NSError!) in
+                    var error: NSError?
+                    if !self.context.save(&error){
+                        println("Could not save \(error), \(error?.userInfo)")
+                    }
+                    else{
+                        println(newArtwork)
+                        self.performSegueWithIdentifier("unwindToHomeScreen", sender: self)
+                    }
+                })
             }
         }
         else{
@@ -63,37 +97,12 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
         }
     }
     
-//    @IBAction func takePhoto(sender: AnyObject) {
-//        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)){
-//            
-//            // Load camera interface
-//            var picker = UIImagePickerController()
-//            picker.delegate = self
-//            picker.sourceType = UIImagePickerControllerSourceType.Camera
-//            picker.allowsEditing = false
-//            
-//            // Start the default camera
-//            self.presentViewController(picker, animated: true, completion: nil)
-//        }
-//        else{
-//            // No camera available
-//            var alert = UIAlertController(title: "Oops", message: "There is no camera available", preferredStyle: .Alert)
-//            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {
-//                (alertAction) in
-//                alert.dismissViewControllerAnimated(true, completion: nil)
-//            }))
-//            
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        }
-//    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Get context
         var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        var context:NSManagedObjectContext = appDelegate.managedObjectContext!
+        context = appDelegate.managedObjectContext!
         
         // Check if folder exists, if not, create it
         let fetchOptions = PHFetchOptions()
@@ -183,59 +192,26 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
         self.dismissViewControllerAnimated(true, completion: nil)
+        chosenImage = image
+        self.imageView.image = image
+        self.imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        self.imageView.clipsToBounds = true
+
         
-        let sourceType:UIImagePickerControllerSourceType = picker.sourceType
+//        let sourceType:UIImagePickerControllerSourceType = picker.sourceType
         
         // If source is camera we need to save the image as a PHAsset and save it into the device's album
-        if sourceType == .Camera {
-            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-            // Dispatch onto a worker thread
-            dispatch_async(dispatch_get_global_queue(priority, 0), {
-                PHPhotoLibrary.sharedPhotoLibrary().performChanges({
-                    // Create Image and add it into album
-                    let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(image)
-                    
-                    // Save the local identifier from this place holder so image can be retrieved in the future
-                    self.assetPlaceHolder = createAssetRequest.placeholderForCreatedAsset
-                    
-                    let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: self.assetCollection)
-                    
-                    albumChangeRequest.addAssets([self.assetPlaceHolder!])
-                    
-                    }, completionHandler: {(success:Bool, error:NSError!) in
-                        
-                        let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([self.assetPlaceHolder!.localIdentifier], options: nil)
-                        
-                        if(fetchResult.count > 0){
-                            let asset:PHAsset = fetchResult.firstObject as PHAsset
-                            let imageWidth = self.imageView.frame.size.width - 10
-                            let imageHeight = self.imageView.frame.size.height - 10
-                            
-                            // Get an instance of PHImageManager
-                            let imageManager = PHImageManager.defaultManager()
-                            imageManager.requestImageForAsset(asset, targetSize: CGSize(width: imageWidth, height: imageHeight), contentMode: .AspectFill, options: nil, resultHandler: {
-                                (result, info) in
-                                
-                                // Assign image to image view in main thread
-                                dispatch_async(dispatch_get_main_queue(), {
-                                    self.imageView.image = result
-                                    self.imageView.contentMode = UIViewContentMode.ScaleAspectFill
-                                    self.imageView.clipsToBounds = true
-                                })
-                            })
-                        }
-                })
-            })
-
-        }
-            
-        // Development option
-        else if sourceType == .PhotoLibrary{
-            imageView.image = image
-            imageView.contentMode = UIViewContentMode.ScaleAspectFill
-            imageView.clipsToBounds = true
-        }
-        else{}
+//        if sourceType == .Camera {
+        
+//        }
+        
+//        // Development option
+//        else if sourceType == .PhotoLibrary{
+//            imageView.image = image
+//            imageView.contentMode = UIViewContentMode.ScaleAspectFill
+//            imageView.clipsToBounds = true
+//        }
+//        else{}
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {

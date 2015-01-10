@@ -12,5 +12,4 @@ import CoreData
 class Artwork:NSManagedObject{
     @NSManaged var title:String!
     @NSManaged var imgRef:String!
-    
 }

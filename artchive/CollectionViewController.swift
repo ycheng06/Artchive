@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import Photos
 
-class CollectionViewController: UIViewController, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
+class CollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, NSFetchedResultsControllerDelegate {
     
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -19,58 +19,66 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, CH
         
     }
 
-//    private var artCollections: [NSManagedObject] = []
+    private var artCollections: [Artwork] = []
     private var fetchResult: PHFetchResult!
-    private var cellSizes:NSMutableArray = NSMutableArray()
+    private var cellSizes:NSMutableArray = NSMutableArray() // Different cell sizes for the collection view
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        artCollectionView.reloadData()
+
         let layout:CHTCollectionViewWaterfallLayout = collectionView.collectionViewLayout as CHTCollectionViewWaterfallLayout
         layout.columnCount = 2
-        layout.sectionInset = UIEdgeInsetsMake(0, 20, 0, 10)
-        layout.itemRenderDirection = .CHTCollectionViewWaterfallLayoutItemRenderDirectionLeftToRight
-        
+        layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10)
+        layout.itemRenderDirection = .CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst
+
+        initArtCollections()
+        initCellSizes()
+
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        initArtCollections()
         // Testing Mode
-        getAllImages()
+        // getAllImages()
     }
     
-    private func getAllImages(){
-        fetchResult = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
-        
-        for (var index=0; index<fetchResult.count; index++) {
-            let height = CGFloat(arc4random() % 50 + 50)
-            let width = CGFloat(arc4random() % 50 + 50)
+    private func initCellSizes(){
+        for (var index=0; index<artCollections.count; index++) {
+            let height = CGFloat(arc4random() % 50 + 70)
+            let width = CGFloat(arc4random() % 50 + 60)
             var cellSize:CGSize = CGSizeMake(width, height)
             cellSizes[index] = NSValue(CGSize: cellSize)
         }
     }
     
-//    private func initArtCollections(){
-//        // Get context for core data
-//        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-//        var context:NSManagedObjectContext = appDelegate.managedObjectContext!
-//
-//        var request = NSFetchRequest(entityName: "Artwork")
-//        if let results = context.executeFetchRequest(request, error: nil) as? [NSManagedObject]{
-//            if(results.count > 0){
-//                println(results.count)
-//                artCollections = results
-//                print(artCollections)
-//            }
-//        }
-//    }
+    private func getAllImages(){
+        fetchResult = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
+    }
+    
+    private func initArtCollections(){
+        // Get context for core data
+        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        var context:NSManagedObjectContext = appDelegate.managedObjectContext!
+
+        // Fetch all Artwork from core data
+        var request = NSFetchRequest(entityName: "Artwork")
+        var error:NSError?
+        if let results = context.executeFetchRequest(request, error: nil) as? [Artwork]{
+            if(results.count > 0){
+                println(results.count)
+                artCollections = results
+            }
+        }
+        else{
+            println(error?.localizedDescription)
+        }
+    }
     
     // UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return artCollections.count
+        return artCollections.count
 
-        return fetchResult.count
+//        return fetchResult.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -80,27 +88,31 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, CH
         // Get an instance of PHImageManager
         let imageManager = PHImageManager.defaultManager()
         
-//        // Use the stored local identifer to fetch PHAsset
-//        let artwork:NSManagedObject = artCollections[indexPath.row] as NSManagedObject
-//        let localIdentifier:String = artwork.valueForKey("imgRef") as String
-//        let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([localIdentifier], options: nil)
-//        
-//        // Give the PHAsset to image manger to create create
-//        if (fetchResult.count > 0){
-//            let asset:PHAsset = fetchResult.firstObject as PHAsset
-//            imageManager.requestImageForAsset(asset, targetSize: CGSize(width:140, height:140), contentMode: .AspectFill, options: nil, resultHandler: {
-//                (result, info) in
-//                cell.setArtwork(result)
-//            })
-//        }
+        // Use the stored local identifer to fetch PHAsset
+        let artwork:Artwork = artCollections[indexPath.row] as Artwork
+        let localIdentifier:String = artwork.imgRef
         
+        // Retrieve the cell size for the image
         let cellSize:NSValue = cellSizes[indexPath.row] as NSValue
-        let asset:PHAsset = fetchResult[indexPath.row] as PHAsset
-        imageManager.requestImageForAsset(asset, targetSize: cellSize.CGSizeValue(), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
-            
-            cell.setArtwork(result)
-            
-        })
+        
+        // Fetch the PHAsset with the localIdenifier
+        let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([localIdentifier], options: nil)
+        
+        // Give the PHAsset to image manger to create create
+        if (fetchResult.count > 0){
+            let asset:PHAsset = fetchResult.firstObject as PHAsset
+            imageManager.requestImageForAsset(asset, targetSize: CGSize(width:140, height:140), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
+                cell.setArtwork(result)
+            })
+        }
+        
+
+//        let asset:PHAsset = fetchResult[indexPath.row] as PHAsset
+//        imageManager.requestImageForAsset(asset, targetSize: cellSize.CGSizeValue(), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
+//            
+//            cell.setArtwork(result)
+//            
+//        })
         
         
         // Set the image in the cell
@@ -110,8 +122,6 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, CH
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
@@ -127,5 +137,16 @@ class CollectionViewController: UIViewController, UICollectionViewDataSource, CH
 ////        return UIEdgeInsetsMake(0, leftRightInset, 0, leftRightInset)
 ////        return UIEdgeInsetsMake(0, 5, 0, 5)
 //    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showArtworkDetail" {
+            println("whats up")
+            let indexPaths:[NSIndexPath] = self.collectionView.indexPathsForSelectedItems() as [NSIndexPath]
+            if let indexPath = indexPaths.first {
+                let destinationController = segue.destinationViewController as DetailViewController
+                destinationController.artwork = artCollections[indexPath.row]
+            }
+        }
+    }
 
 }
