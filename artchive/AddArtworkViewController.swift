@@ -13,7 +13,7 @@ import Photos
 import CoreData
 
 
-class AddArtworkViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class AddArtworkViewController: UITableViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let albumName = "artchive"
     var albumFound: Bool = false
@@ -30,47 +30,31 @@ class AddArtworkViewController: UIViewController, UINavigationControllerDelegate
         artTitle.resignFirstResponder()
     }
     
-    @IBAction func cancelArtwork(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-   
-    
     @IBAction func saveArtwork(sender: UIBarButtonItem) {
+        let titleText:String = artTitle.text
         
-        var newArtwork = NSEntityDescription.insertNewObjectForEntityForName("Artwork", inManagedObjectContext: self.context) as NSManagedObject
-        
-        newArtwork.setValue(artTitle.text, forKey: "title")
-        if let imageLocalIdentifier:String = assetPlaceHolder?.localIdentifier {
-            newArtwork.setValue(imageLocalIdentifier, forKey: "imgRef")
-        }
-        
-        var error: NSError?
-        if !self.context.save(&error){
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-        else{
-            println(newArtwork)
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
+        if !titleText.isEmpty {
+            println(titleText)
+            var newArtwork = NSEntityDescription.insertNewObjectForEntityForName("Artwork", inManagedObjectContext: self.context) as Artwork
 
-    }
-    
-    @IBAction func takePhoto(sender: AnyObject) {
-        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)){
+            newArtwork.title = titleText
+            if let imageLocalIdentifier:String = assetPlaceHolder?.localIdentifier {
+                newArtwork.imgRef = imageLocalIdentifier
+            }
             
-            // Load camera interface
-            var picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = UIImagePickerControllerSourceType.Camera
-            picker.allowsEditing = false
-            
-            // Start the default camera
-            self.presentViewController(picker, animated: true, completion: nil)
+            var error: NSError?
+            if !self.context.save(&error){
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            else{
+                println(newArtwork)
+                performSegueWithIdentifier("unwindToHomeScreen", sender: self)
+            }
         }
         else{
-            // No camera available
-            var alert = UIAlertController(title: "Error", message: "There is no camera available", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .Default, handler: {
+            // spawn UIAlert here
+            var alert = UIAlertController(title: "Oops", message: "We can't proceed as you forgot to fill in the title. This field is mandatory", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {
                 (alertAction) in
                 alert.dismissViewControllerAnimated(true, completion: nil)
             }))
@@ -78,6 +62,30 @@ class AddArtworkViewController: UIViewController, UINavigationControllerDelegate
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
+    
+//    @IBAction func takePhoto(sender: AnyObject) {
+//        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)){
+//            
+//            // Load camera interface
+//            var picker = UIImagePickerController()
+//            picker.delegate = self
+//            picker.sourceType = UIImagePickerControllerSourceType.Camera
+//            picker.allowsEditing = false
+//            
+//            // Start the default camera
+//            self.presentViewController(picker, animated: true, completion: nil)
+//        }
+//        else{
+//            // No camera available
+//            var alert = UIAlertController(title: "Oops", message: "There is no camera available", preferredStyle: .Alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {
+//                (alertAction) in
+//                alert.dismissViewControllerAnimated(true, completion: nil)
+//            }))
+//            
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
+//    }
     
     
     override func viewDidLoad() {
@@ -125,47 +133,109 @@ class AddArtworkViewController: UIViewController, UINavigationControllerDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // UITableView
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // First cell opens Camera or PhotoLibrary
+        if indexPath.row == 0 {
+            if (UIImagePickerController.isSourceTypeAvailable(.Camera)){
+                
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .Camera
+                
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+            
+            // Development setting
+            else if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)){
+                
+                let imagePicker = UIImagePickerController()
+                imagePicker.delegate = self
+                imagePicker.allowsEditing = false
+                imagePicker.sourceType = .PhotoLibrary
+                
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }
+            else{
+                // No camera available
+                var alert = UIAlertController(title: "Oops", message: "Camera and PhotoLibrary are not available. We can't continue without at least one. Please check your device", preferredStyle: .Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {
+                    (alertAction) in
+                    alert.dismissViewControllerAnimated(true, completion: nil)
+                }))
+    
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    // Color of status bar changed from white to black after displaying photo library. Use this as a quick fix
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: false)
+    }
 
-    //UIIImagePickerControllerDelegate Methods
+    // UIIImagePickerControllerDelegate Methods
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-        // Dispatch onto a worker thread
-        dispatch_async(dispatch_get_global_queue(priority, 0), {
-            PHPhotoLibrary.sharedPhotoLibrary().performChanges({
-                // Create Image and add it into album
-                let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(image)
-                
-                // Save the local identifier from this place holder so image can be retrieved in the future
-                self.assetPlaceHolder = createAssetRequest.placeholderForCreatedAsset
-                
-                let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: self.assetCollection)
-                
-                albumChangeRequest.addAssets([self.assetPlaceHolder!])
-                
-                }, completionHandler: {(success:Bool, error:NSError!) in
-            
-                    let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([self.assetPlaceHolder!.localIdentifier], options: nil)
+        let sourceType:UIImagePickerControllerSourceType = picker.sourceType
+        
+        // If source is camera we need to save the image as a PHAsset and save it into the device's album
+        if sourceType == .Camera {
+            let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            // Dispatch onto a worker thread
+            dispatch_async(dispatch_get_global_queue(priority, 0), {
+                PHPhotoLibrary.sharedPhotoLibrary().performChanges({
+                    // Create Image and add it into album
+                    let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(image)
                     
-                    if(fetchResult.count > 0){
-                        let asset:PHAsset = fetchResult.firstObject as PHAsset
+                    // Save the local identifier from this place holder so image can be retrieved in the future
+                    self.assetPlaceHolder = createAssetRequest.placeholderForCreatedAsset
+                    
+                    let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: self.assetCollection)
+                    
+                    albumChangeRequest.addAssets([self.assetPlaceHolder!])
+                    
+                    }, completionHandler: {(success:Bool, error:NSError!) in
                         
-                        // Get an instance of PHImageManager
-                        let imageManager = PHImageManager.defaultManager()
-                        imageManager.requestImageForAsset(asset, targetSize: CGSize(width:150, height:150), contentMode: .AspectFill, options: nil, resultHandler: {
-                            (result, info) in
+                        let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([self.assetPlaceHolder!.localIdentifier], options: nil)
+                        
+                        if(fetchResult.count > 0){
+                            let asset:PHAsset = fetchResult.firstObject as PHAsset
+                            let imageWidth = self.imageView.frame.size.width - 10
+                            let imageHeight = self.imageView.frame.size.height - 10
                             
-                            // Assign image to image view in main thread
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.imageView.image = result
+                            // Get an instance of PHImageManager
+                            let imageManager = PHImageManager.defaultManager()
+                            imageManager.requestImageForAsset(asset, targetSize: CGSize(width: imageWidth, height: imageHeight), contentMode: .AspectFill, options: nil, resultHandler: {
+                                (result, info) in
+                                
+                                // Assign image to image view in main thread
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    self.imageView.image = result
+                                    self.imageView.contentMode = UIViewContentMode.ScaleAspectFill
+                                    self.imageView.clipsToBounds = true
+                                })
                             })
-                        })
-                    }
+                        }
+                })
             })
-        })
 
+        }
+            
+        // Development option
+        else if sourceType == .PhotoLibrary{
+            imageView.image = image
+            imageView.contentMode = UIViewContentMode.ScaleAspectFill
+            imageView.clipsToBounds = true
+        }
+        else{}
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {

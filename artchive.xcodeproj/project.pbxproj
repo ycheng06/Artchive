@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */; };
 		963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E81A52D26600FFBBEA /* CollectionViewController.swift */; };
+		96C6BB3F1A5F7C6500CB9090 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */; };
+		96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */; };
 		96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FC21A4C2BEA00025807 /* AppDelegate.swift */; };
 		96F73FC51A4C2BEA00025807 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FC41A4C2BEA00025807 /* ViewController.swift */; };
 		96F73FC81A4C2BEA00025807 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC61A4C2BEA00025807 /* Main.storyboard */; };
@@ -32,6 +34,8 @@
 /* Begin PBXFileReference section */
 		963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkCollectionViewCell.swift; sourceTree = "<group>"; };
 		963086E81A52D26600FFBBEA /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
+		96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTCollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
 		96F73FBD1A4C2BEA00025807 /* artchive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = artchive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F73FC11A4C2BEA00025807 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96F73FC21A4C2BEA00025807 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +71,7 @@
 		967544B51A52CC4A0004B25D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -75,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */,
+				96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -267,10 +273,12 @@
 			files = (
 				963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */,
 				96F73FC51A4C2BEA00025807 /* ViewController.swift in Sources */,
+				96C6BB3F1A5F7C6500CB9090 /* Artwork.swift in Sources */,
 				96F73FE31A4C48D600025807 /* AddArtworkViewController.swift in Sources */,
 				96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */,
 				96F740171A50F33D00025807 /* artchive.xcdatamodeld in Sources */,
 				963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */,
+				96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
