@@ -10,9 +10,9 @@ import UIKit
 import CoreData
 import Photos
 
-class CollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, NSFetchedResultsControllerDelegate {
-    
+class CollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
 
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBAction func unwindToHomeScreen(segue:UIStoryboardSegue){
@@ -20,8 +20,8 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     }
 
     private var artCollections: [Artwork] = []
-    private var fetchResult: PHFetchResult!
-    private var cellSizes:NSMutableArray = NSMutableArray() // Different cell sizes for the collection view
+    private var cellSizes:[Int: CGSize] = [Int: CGSize]()
+    var fetchResultController:NSFetchedResultsController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,55 +30,54 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         layout.columnCount = 2
         layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10)
         layout.itemRenderDirection = .CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst
-
-        initArtCollections()
-        initCellSizes()
-
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        // Testing Mode
-        // getAllImages()
+        
+        //Probabaly not the best way to refresh data. View will appear is called
+        //everytime this view appears. CollectionView doesn't really work nicely
+        //with NSFetchedDelegate.....
+        initArtCollections()
+        initCellSizes()
+        
+        collectionView.reloadData()
     }
     
+    // Calculates random cell sizes for the collection view
     private func initCellSizes(){
         for (var index=0; index<artCollections.count; index++) {
             let height = CGFloat(arc4random() % 50 + 70)
             let width = CGFloat(arc4random() % 50 + 60)
             var cellSize:CGSize = CGSizeMake(width, height)
-            cellSizes[index] = NSValue(CGSize: cellSize)
+            
+            cellSizes.updateValue(cellSize, forKey: index)
         }
-    }
-    
-    private func getAllImages(){
-        fetchResult = PHAsset.fetchAssetsWithMediaType(PHAssetMediaType.Image, options: nil)
     }
     
     private func initArtCollections(){
-        // Get context for core data
-        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        var context:NSManagedObjectContext = appDelegate.managedObjectContext!
-
-        // Fetch all Artwork from core data
-        var request = NSFetchRequest(entityName: "Artwork")
-        var error:NSError?
-        if let results = context.executeFetchRequest(request, error: nil) as? [Artwork]{
-            if(results.count > 0){
-                println(results.count)
-                artCollections = results
+        var fetchRequest = NSFetchRequest(entityName: "Artwork")
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext{
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            
+//            fetchResultController.delegate = self
+         
+            var error:NSError?
+            var result = fetchResultController.performFetch(&error)
+            artCollections = fetchResultController.fetchedObjects as [Artwork]
+            
+            if result != true {
+                println(error?.localizedDescription)
             }
-        }
-        else{
-            println(error?.localizedDescription)
         }
     }
     
     // UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return artCollections.count
-
-//        return fetchResult.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -93,7 +92,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         let localIdentifier:String = artwork.imgRef
         
         // Retrieve the cell size for the image
-        let cellSize:NSValue = cellSizes[indexPath.row] as NSValue
+        let cellSize:CGSize = cellSizes[indexPath.row]! as CGSize
         
         // Fetch the PHAsset with the localIdenifier
         let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([localIdentifier], options: nil)
@@ -106,15 +105,6 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
             })
         }
         
-
-//        let asset:PHAsset = fetchResult[indexPath.row] as PHAsset
-//        imageManager.requestImageForAsset(asset, targetSize: cellSize.CGSizeValue(), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
-//            
-//            cell.setArtwork(result)
-//            
-//        })
-        
-        
         // Set the image in the cell
         return cell
     }
@@ -126,18 +116,94 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
 //         let imageHeight = image.size.height*gridWidth/image.size.width
-        let cellSize:NSValue = cellSizes[indexPath.row] as NSValue
-        print(cellSize.CGSizeValue())
-        return cellSize.CGSizeValue()
-    }
+        let cellSize:CGSize = cellSizes[indexPath.row]! as CGSize
 
-//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-//        let leftRightInset = self.view.frame.size.width / 50.0
-////        println(leftRightInset)
-////        return UIEdgeInsetsMake(0, leftRightInset, 0, leftRightInset)
-////        return UIEdgeInsetsMake(0, 5, 0, 5)
-//    }
+        return cellSize
+    }
     
+    // NSFetchedResultsControllerDelegate
+//    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+//
+//    }
+//    
+//    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+//        
+//        var change:[NSFetchedResultsChangeType: NSIndexPath] = [NSFetchedResultsChangeType: NSIndexPath]()
+//        switch type{
+//        case .Insert:
+//            println(newIndexPath)
+//            change.updateValue(newIndexPath!, forKey: type)
+//        case .Delete:
+//            change.updateValue(indexPath!, forKey: type)
+//        case .Update:
+//            change.updateValue(indexPath!, forKey: type)
+//        default:
+//            println("nothing here")
+//        }
+//        
+//        objectChanges.append(change)
+//    }
+//    
+//    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+////        if shouldReloadCollectionView() {
+////            self.collectionView.reloadData()
+////        }
+////        else {
+////            if objectChanges.count > 0 {
+////                self.collectionView.performBatchUpdates({
+////                    
+////                    for change in self.objectChanges {
+////                        for(changeType, indexPath) in change{
+////                            switch(changeType){
+////                            case .Insert:
+////                                self.collectionView.insertItemsAtIndexPaths([indexPath])
+////                            case .Delete:
+////                                self.collectionView.deleteItemsAtIndexPaths([indexPath])
+////                            case .Update:
+////                                self.collectionView.reloadItemsAtIndexPaths([indexPath])
+////                            default:
+////                                self.collectionView.reloadData()
+////                            }
+////                        }
+////                    }
+////                    
+////                    }, completion: nil)
+////            }
+////            
+////            objectChanges.removeAll(keepCapacity: true)
+////        }
+//    }
+//    
+//    func shouldReloadCollectionView() -> Bool {
+//        var shouldReload:Bool = false
+//        
+//        for change in self.objectChanges {
+//            for(changeType, indexPath) in change{
+//                switch(changeType){
+//                case .Insert:
+//                    if(self.collectionView.numberOfItemsInSection(indexPath.section) == 0){
+//                        shouldReload = true
+//                    } else {
+//                        shouldReload = false
+//                    }
+//                case .Delete:
+//                    if(self.collectionView.numberOfItemsInSection(indexPath.section) == 1){
+//                        shouldReload = true
+//                    } else {
+//                        shouldReload = false
+//                    }
+//
+//                default:
+//                    shouldReload = false
+//
+//                }
+//            }
+//        }
+//
+//        return shouldReload
+//    }
+//    
+    // Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showArtworkDetail" {
             println("whats up")
