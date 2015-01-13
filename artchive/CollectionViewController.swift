@@ -21,6 +21,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 
     private var artCollections: [Artwork] = []
     private var cellSizes:[Int: CGSize] = [Int: CGSize]()
+
     var fetchResultController:NSFetchedResultsController!
     
     override func viewDidLoad() {
@@ -39,20 +40,8 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         //everytime this view appears. CollectionView doesn't really work nicely
         //with NSFetchedDelegate.....
         initArtCollections()
-        initCellSizes()
         
         collectionView.reloadData()
-    }
-    
-    // Calculates random cell sizes for the collection view
-    private func initCellSizes(){
-        for (var index=0; index<artCollections.count; index++) {
-            let height = CGFloat(arc4random() % 50 + 70)
-            let width = CGFloat(arc4random() % 50 + 60)
-            var cellSize:CGSize = CGSizeMake(width, height)
-            
-            cellSizes.updateValue(cellSize, forKey: index)
-        }
     }
     
     private func initArtCollections(){
@@ -91,16 +80,13 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         let artwork:Artwork = artCollections[indexPath.row] as Artwork
         let localIdentifier:String = artwork.imgRef
         
-        // Retrieve the cell size for the image
-        let cellSize:CGSize = cellSizes[indexPath.row]! as CGSize
-        
         // Fetch the PHAsset with the localIdenifier
         let fetchResult:PHFetchResult = PHAsset.fetchAssetsWithLocalIdentifiers([localIdentifier], options: nil)
         
         // Give the PHAsset to image manger to create create
         if (fetchResult.count > 0){
             let asset:PHAsset = fetchResult.firstObject as PHAsset
-            imageManager.requestImageForAsset(asset, targetSize: CGSize(width:140, height:140), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
+            imageManager.requestImageForAsset(asset, targetSize: CGSizeMake(150, 150), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
                 cell.setArtwork(result)
             })
         }
@@ -115,9 +101,18 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-//         let imageHeight = image.size.height*gridWidth/image.size.width
-        let cellSize:CGSize = cellSizes[indexPath.row]! as CGSize
-
+        let artwork = artCollections[indexPath.row] as Artwork
+        
+        var cellSize:CGSize!
+        // Landscape
+        if (artwork.originWidth.integerValue > artwork.originHeight.integerValue){
+            cellSize = CGSizeMake(60, 50)
+        }
+        // Portrait
+        else {
+            cellSize = CGSizeMake(60, 110)
+        }
+        
         return cellSize
     }
     
@@ -205,14 +200,15 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
 //    
     // Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
         if segue.identifier == "showArtworkDetail" {
-            println("whats up")
             let indexPaths:[NSIndexPath] = self.collectionView.indexPathsForSelectedItems() as [NSIndexPath]
             if let indexPath = indexPaths.first {
                 let destinationController = segue.destinationViewController as DetailViewController
                 destinationController.artwork = artCollections[indexPath.row]
             }
         }
+        
     }
 
 }

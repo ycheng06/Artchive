@@ -51,19 +51,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("DetailTableViewCell", forIndexPath: indexPath) as DetailTableViewCell
-        
+
         //Configure the cell
         switch indexPath.row {
         case 0:
             cell.fieldLabel.text = "Title"
-//            cell.valueLabel.text = restaurant.name
+            cell.valueLabel.text = artwork.title
         case 1:
             cell.fieldLabel.text = "Artist"
 //            cell.valueLabel.text = restaurant.type
@@ -80,6 +80,4 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         
         return cell
     }
-    
-
 }

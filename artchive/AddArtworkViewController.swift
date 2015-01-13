@@ -58,6 +58,9 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
             if let image = chosenImage{
                 var assetPlaceHolder:PHObjectPlaceholder?
                 
+                newArtwork.originHeight = image.size.height
+                newArtwork.originWidth = image.size.width
+                
                 PHPhotoLibrary.sharedPhotoLibrary().performChanges({
                     // Create Image and add it into album
                     let createAssetRequest = PHAssetChangeRequest.creationRequestForAssetFromImage(image)
@@ -196,6 +199,8 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
         self.imageView.image = image
         self.imageView.contentMode = UIViewContentMode.ScaleAspectFill
         self.imageView.clipsToBounds = true
+        
+        print(image.size)
 
         
 //        let sourceType:UIImagePickerControllerSourceType = picker.sourceType
