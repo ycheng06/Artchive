@@ -31,6 +31,10 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         layout.columnCount = 2
         layout.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10)
         layout.itemRenderDirection = .CHTCollectionViewWaterfallLayoutItemRenderDirectionShortestFirst
+        
+        // Empty back button title
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain,
+            target: nil, action: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -115,89 +119,7 @@ class CollectionViewController: UIViewController, UICollectionViewDelegate, UICo
         
         return cellSize
     }
-    
-    // NSFetchedResultsControllerDelegate
-//    func controllerWillChangeContent(controller: NSFetchedResultsController) {
-//
-//    }
-//    
-//    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
-//        
-//        var change:[NSFetchedResultsChangeType: NSIndexPath] = [NSFetchedResultsChangeType: NSIndexPath]()
-//        switch type{
-//        case .Insert:
-//            println(newIndexPath)
-//            change.updateValue(newIndexPath!, forKey: type)
-//        case .Delete:
-//            change.updateValue(indexPath!, forKey: type)
-//        case .Update:
-//            change.updateValue(indexPath!, forKey: type)
-//        default:
-//            println("nothing here")
-//        }
-//        
-//        objectChanges.append(change)
-//    }
-//    
-//    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-////        if shouldReloadCollectionView() {
-////            self.collectionView.reloadData()
-////        }
-////        else {
-////            if objectChanges.count > 0 {
-////                self.collectionView.performBatchUpdates({
-////                    
-////                    for change in self.objectChanges {
-////                        for(changeType, indexPath) in change{
-////                            switch(changeType){
-////                            case .Insert:
-////                                self.collectionView.insertItemsAtIndexPaths([indexPath])
-////                            case .Delete:
-////                                self.collectionView.deleteItemsAtIndexPaths([indexPath])
-////                            case .Update:
-////                                self.collectionView.reloadItemsAtIndexPaths([indexPath])
-////                            default:
-////                                self.collectionView.reloadData()
-////                            }
-////                        }
-////                    }
-////                    
-////                    }, completion: nil)
-////            }
-////            
-////            objectChanges.removeAll(keepCapacity: true)
-////        }
-//    }
-//    
-//    func shouldReloadCollectionView() -> Bool {
-//        var shouldReload:Bool = false
-//        
-//        for change in self.objectChanges {
-//            for(changeType, indexPath) in change{
-//                switch(changeType){
-//                case .Insert:
-//                    if(self.collectionView.numberOfItemsInSection(indexPath.section) == 0){
-//                        shouldReload = true
-//                    } else {
-//                        shouldReload = false
-//                    }
-//                case .Delete:
-//                    if(self.collectionView.numberOfItemsInSection(indexPath.section) == 1){
-//                        shouldReload = true
-//                    } else {
-//                        shouldReload = false
-//                    }
-//
-//                default:
-//                    shouldReload = false
-//
-//                }
-//            }
-//        }
-//
-//        return shouldReload
-//    }
-//    
+
     // Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
