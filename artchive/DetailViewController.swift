@@ -13,7 +13,11 @@ import CoreData
 class DetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var artworkImageView: UIImageView!
+    
+     
     var artwork: Artwork!
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +34,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
         // Give the PHAsset to image manger to create create
         if (fetchResult.count > 0){
             let asset:PHAsset = fetchResult.firstObject as PHAsset
-            imageManager.requestImageForAsset(asset, targetSize: CGSize(width:140, height:140), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
+            imageManager.requestImageForAsset(asset, targetSize: CGSize(width:150, height:150), contentMode: .AspectFill, options: nil, resultHandler: { (result, info) in
                 self.artworkImageView.image = result
             })
         }

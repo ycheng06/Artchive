@@ -34,6 +34,11 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
         artTitle.resignFirstResponder()
     }
     
+    @IBAction func unwindToAddArtwork(segue:UIStoryboardSegue){
+        
+    }
+
+    
     @IBAction func saveArtwork(sender: UIBarButtonItem) {
         let titleText:String = artTitle.text
         

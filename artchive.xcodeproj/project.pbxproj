@@ -13,6 +13,10 @@
 		96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */; };
 		96C6BB431A61082600CB9090 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB421A61082600CB9090 /* DetailViewController.swift */; };
 		96C6BB451A610E6B00CB9090 /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB441A610E6B00CB9090 /* DetailTableViewCell.swift */; };
+		96C7CA331A651E3A00FF050F /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C7CA321A651E3A00FF050F /* LocationViewController.swift */; };
+		96C7CA351A653B8C00FF050F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C7CA341A653B8C00FF050F /* CoreLocation.framework */; };
+		96C7CA371A653B9F00FF050F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C7CA361A653B9F00FF050F /* MapKit.framework */; };
+		96C7CA5D1A65501F00FF050F /* QuadratTouch.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 96C7CA5A1A65500400FF050F /* QuadratTouch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FC21A4C2BEA00025807 /* AppDelegate.swift */; };
 		96F73FC81A4C2BEA00025807 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC61A4C2BEA00025807 /* Main.storyboard */; };
 		96F73FCA1A4C2BEA00025807 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC91A4C2BEA00025807 /* Images.xcassets */; };
@@ -23,6 +27,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		96C7CA571A65500400FF050F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 476B70891A0EBAE700AFAC33;
+			remoteInfo = Quadrat;
+		};
+		96C7CA591A65500400FF050F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 476B70DA1A0EBBA500AFAC33;
+			remoteInfo = QuadratTouch;
+		};
+		96C7CA5B1A65501500FF050F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 476B70D91A0EBBA500AFAC33;
+			remoteInfo = QuadratTouch;
+		};
 		96F73FD31A4C2BEB00025807 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 96F73FB51A4C2BEA00025807 /* Project object */;
@@ -32,6 +57,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		96C7CA501A654E8800FF050F /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				96C7CA5D1A65501F00FF050F /* QuadratTouch.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkCollectionViewCell.swift; sourceTree = "<group>"; };
 		963086E81A52D26600FFBBEA /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -39,6 +78,10 @@
 		96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTCollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
 		96C6BB421A61082600CB9090 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		96C6BB441A610E6B00CB9090 /* DetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		96C7CA321A651E3A00FF050F /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
+		96C7CA341A653B8C00FF050F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		96C7CA361A653B9F00FF050F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quadrat.xcodeproj; path = "das-quadrat/Source/Quadrat.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		96F73FBD1A4C2BEA00025807 /* artchive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = artchive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F73FC11A4C2BEA00025807 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96F73FC21A4C2BEA00025807 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +100,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96C7CA371A653B9F00FF050F /* MapKit.framework in Frameworks */,
+				96C7CA351A653B8C00FF050F /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +139,7 @@
 				96F73FE21A4C48D600025807 /* AddArtworkViewController.swift */,
 				963086E81A52D26600FFBBEA /* CollectionViewController.swift */,
 				96C6BB421A61082600CB9090 /* DetailViewController.swift */,
+				96C7CA321A651E3A00FF050F /* LocationViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -115,9 +161,28 @@
 			name = AppDelegate;
 			sourceTree = "<group>";
 		};
+		96C7CA451A65468100FF050F /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */,
+			);
+			name = ThirdParty;
+			sourceTree = "<group>";
+		};
+		96C7CA531A65500400FF050F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				96C7CA581A65500400FF050F /* Quadrat.framework */,
+				96C7CA5A1A65500400FF050F /* QuadratTouch.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		96F73FB41A4C2BEA00025807 = {
 			isa = PBXGroup;
 			children = (
+				96C7CA361A653B9F00FF050F /* MapKit.framework */,
+				96C7CA341A653B8C00FF050F /* CoreLocation.framework */,
 				96F73FBF1A4C2BEA00025807 /* artchive */,
 				96F73FD51A4C2BEB00025807 /* artchiveTests */,
 				96F73FBE1A4C2BEA00025807 /* Products */,
@@ -136,6 +201,7 @@
 		96F73FBF1A4C2BEA00025807 /* artchive */ = {
 			isa = PBXGroup;
 			children = (
+				96C7CA451A65468100FF050F /* ThirdParty */,
 				967544B91A52CC630004B25D /* AppDelegate */,
 				967544B81A52CC5D0004B25D /* Interfaces */,
 				967544B71A52CC560004B25D /* ViewControllers */,
@@ -183,10 +249,12 @@
 				96F73FB91A4C2BEA00025807 /* Sources */,
 				96F73FBA1A4C2BEA00025807 /* Frameworks */,
 				96F73FBB1A4C2BEA00025807 /* Resources */,
+				96C7CA501A654E8800FF050F /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				96C7CA5C1A65501500FF050F /* PBXTargetDependency */,
 			);
 			name = artchive;
 			productName = artchive;
@@ -241,6 +309,12 @@
 			mainGroup = 96F73FB41A4C2BEA00025807;
 			productRefGroup = 96F73FBE1A4C2BEA00025807 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 96C7CA531A65500400FF050F /* Products */;
+					ProjectRef = 96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				96F73FBC1A4C2BEA00025807 /* artchive */,
@@ -248,6 +322,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		96C7CA581A65500400FF050F /* Quadrat.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quadrat.framework;
+			remoteRef = 96C7CA571A65500400FF050F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		96C7CA5A1A65500400FF050F /* QuadratTouch.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = QuadratTouch.framework;
+			remoteRef = 96C7CA591A65500400FF050F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		96F73FBB1A4C2BEA00025807 /* Resources */ = {
@@ -279,6 +370,7 @@
 				96C6BB3F1A5F7C6500CB9090 /* Artwork.swift in Sources */,
 				96F73FE31A4C48D600025807 /* AddArtworkViewController.swift in Sources */,
 				96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */,
+				96C7CA331A651E3A00FF050F /* LocationViewController.swift in Sources */,
 				96F740171A50F33D00025807 /* artchive.xcdatamodeld in Sources */,
 				963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */,
 				96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
@@ -297,6 +389,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		96C7CA5C1A65501500FF050F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = QuadratTouch;
+			targetProxy = 96C7CA5B1A65501500FF050F /* PBXContainerItemProxy */;
+		};
 		96F73FD41A4C2BEB00025807 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 96F73FBC1A4C2BEA00025807 /* artchive */;

@@ -39,5 +39,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Artchive will use your current location to search for venues close by</string>
 </dict>
 </plist>
