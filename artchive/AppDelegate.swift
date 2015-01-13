@@ -30,8 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Foursquare API
         let client = Client(
-            clientID:       "",
-            clientSecret:   "",
+            clientID:       "DEGHVQWY3VCJJZB2VDHYEG1LXZ4JJK1CEPN3OZWHQFYOAKHD",
+            clientSecret:   "0OLYHEPLGMXRTAMWRCHKY4N2TKHTS15ERJGBCFIOVL1NVGI2",
             redirectURL:    "artchive://foursquare")
         var configuration = Configuration(client:client)
         configuration.mode = "foursquare"
