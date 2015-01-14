@@ -17,6 +17,7 @@
 		96C7CA351A653B8C00FF050F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C7CA341A653B8C00FF050F /* CoreLocation.framework */; };
 		96C7CA371A653B9F00FF050F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96C7CA361A653B9F00FF050F /* MapKit.framework */; };
 		96C7CA5D1A65501F00FF050F /* QuadratTouch.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 96C7CA5A1A65500400FF050F /* QuadratTouch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		96C7CA5F1A66952700FF050F /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C7CA5E1A66952700FF050F /* SwiftyJSON.swift */; };
 		96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73FC21A4C2BEA00025807 /* AppDelegate.swift */; };
 		96F73FC81A4C2BEA00025807 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC61A4C2BEA00025807 /* Main.storyboard */; };
 		96F73FCA1A4C2BEA00025807 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96F73FC91A4C2BEA00025807 /* Images.xcassets */; };
@@ -82,6 +83,7 @@
 		96C7CA341A653B8C00FF050F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		96C7CA361A653B9F00FF050F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quadrat.xcodeproj; path = "das-quadrat/Source/Quadrat.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		96C7CA5E1A66952700FF050F /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		96F73FBD1A4C2BEA00025807 /* artchive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = artchive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F73FC11A4C2BEA00025807 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96F73FC21A4C2BEA00025807 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				96C7CA381A6544AB00FF050F /* Quadrat.xcodeproj */,
+				96C7CA5E1A66952700FF050F /* SwiftyJSON.swift */,
 			);
 			name = ThirdParty;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				96C6BB451A610E6B00CB9090 /* DetailTableViewCell.swift in Sources */,
 				963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */,
 				96C6BB3F1A5F7C6500CB9090 /* Artwork.swift in Sources */,
+				96C7CA5F1A66952700FF050F /* SwiftyJSON.swift in Sources */,
 				96F73FE31A4C48D600025807 /* AddArtworkViewController.swift in Sources */,
 				96F73FC31A4C2BEA00025807 /* AppDelegate.swift in Sources */,
 				96C7CA331A651E3A00FF050F /* LocationViewController.swift in Sources */,

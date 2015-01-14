@@ -46,7 +46,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate{
     // MARK: CLLocationManagerDelegate
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         var locValue:CLLocationCoordinate2D = manager.location.coordinate
-        println("\(locValue.longitude)")
+        println("\(locValue.longitude) \(locValue.latitude)")
         
         browseVenues()
         
@@ -58,16 +58,23 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate{
         var parameters:Parameters = Parameters()
         let longitude = locationManager.location.coordinate.longitude
         let latitude = locationManager.location.coordinate.latitude
-        parameters.updateValue("\(longitude),\(latitude)", forKey: Parameter.ll)
-//        parameters.updateValue("42.338,-71", forKey: Parameter.ll)
+//        parameters.updateValue("\(longitude),\(latitude)", forKey: Parameter.ll)
+        parameters.updateValue("42.339878,-71.094536", forKey: Parameter.ll)
 //        parameters.updateValue("browse", forKey: Parameter.intent)
-//        parameters.updateValue("1000", forKey: Parameter.radius)
-        parameters.updateValue("arts", forKey: Parameter.section)
-        parameters.updateValue("20", forKey: Parameter.limit)
+//        parameters.updateValue("2000", forKey: Parameter.radius)
+        parameters.updateValue("Arts", forKey: Parameter.query)
+//        parameters.updateValue("1", forKey: Parameter.sortByDistance)
         
         let task = session.venues.explore(parameters,
             completionHandler: { (result) -> Void in
-                print(result)
+
+                let json = JSON(result.response!)
+//                print(json["groups"])
+                
+                for (index: String, item: JSON) in json["groups"][0]["items"] {
+                    print(item["venue"]["name"])
+                    println("\n")
+                }
         })
         
         task.start()
