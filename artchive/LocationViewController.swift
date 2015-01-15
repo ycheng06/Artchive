@@ -10,9 +10,24 @@ import UIKit
 import CoreLocation
 import QuadratTouch
 
-class LocationViewController: UIViewController, CLLocationManagerDelegate{
-    let locationManager = CLLocationManager()
+class LocationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate{
+    
+    class Venue{
+        var name:String!
+        var address:String!
+        
+        init(name:String, address:String){
+            self.name = name
+            self.address = address
+        }
+    }
+    
+    
+    @IBOutlet weak var currentLocationLabel: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    var locationManager:CLLocationManager!
     private var session: Session!
+    private var venues:[Venue]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +36,22 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate{
         // Hide status bar
         UIApplication.sharedApplication().statusBarHidden = true
         
-        // For use in foreground
-        locationManager.requestWhenInUseAuthorization()
+        venues = [Venue]()
         
-        if CLLocationManager.locationServicesEnabled(){
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        // LocationManager init
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        
+        let status = CLLocationManager.authorizationStatus()
+        if status == .NotDetermined {
+            locationManager.requestWhenInUseAuthorization()
+        }
+        else if status == .AuthorizedWhenInUse || status == .Authorized {
             locationManager.startUpdatingLocation()
+        }
+        else {
+            showNoPermissionAlert()
         }
         
         // Foursquare Api session
@@ -48,10 +72,21 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate{
         var locValue:CLLocationCoordinate2D = manager.location.coordinate
         println("\(locValue.longitude) \(locValue.latitude)")
         
+        reverseGeocode(manager.location)
         browseVenues()
         
         // Stop location service after coordinate is received
         locationManager.stopUpdatingLocation()
+    }
+    
+    func reverseGeocode(location:CLLocation){
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location , completionHandler: {
+            (placemarks, error) in
+            var placemark:CLPlacemark = placemarks.last as CLPlacemark
+            
+            self.currentLocationLabel.text = placemark.thoroughfare
+        })
     }
     
     func browseVenues() {
@@ -63,18 +98,22 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate{
 //        parameters.updateValue("browse", forKey: Parameter.intent)
 //        parameters.updateValue("2000", forKey: Parameter.radius)
         parameters.updateValue("Arts", forKey: Parameter.query)
-//        parameters.updateValue("1", forKey: Parameter.sortByDistance)
         
         let task = session.venues.explore(parameters,
             completionHandler: { (result) -> Void in
-
-                let json = JSON(result.response!)
-//                print(json["groups"])
+                self.venues = [Venue]()
                 
+                let json = JSON(result.response!)
                 for (index: String, item: JSON) in json["groups"][0]["items"] {
-                    print(item["venue"]["name"])
-                    println("\n")
+                    var venue:Venue = Venue(name: item["venue"]["name"].stringValue, address: item["venue"]["location"]["address"].stringValue)
+                    self.venues.append(venue)
+//                    print(venue.name)
+//                    println("\n")
+//                    print(venue.address)
+//                    println("\n")
                 }
+                
+                self.tableView.reloadData()
         })
         
         task.start()
@@ -82,11 +121,63 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate{
     
     // didFailWithError
     func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-        
+        showErrorAlert(error)
     }
     
     // didChangeAuthorizationStatus
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        
+        // If permission becomes denied or restricted ask for permission
+        if status == .Denied || status == .Restricted {
+            showNoPermissionAlert()
+        }
+        // Start tracking location again after status went from restricted/denied to ok
+        else {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func showNoPermissionAlert(){
+        var alert = UIAlertController(title: "Oops", message: "In order to work, app needs your location", preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Open settings", style: .Default, handler: {
+            (alertAction) in
+            
+            let URL = NSURL(string: UIApplicationOpenSettingsURLString)
+            UIApplication.sharedApplication().openURL(URL!)
+            
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func showErrorAlert(error: NSError){
+        var alert = UIAlertController(title: "Oops", message: error.localizedDescription, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: {
+            (alertAction) in
+
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: UITableViewDataSource
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("LocationCell", forIndexPath: indexPath) as LocationTableViewCell
+        let venue = venues[indexPath.row]
+        cell.nameLabel.text = venue.name
+        cell.addressLabel.text = venue.address
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return venues.count
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
     }
     
