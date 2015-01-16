@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */; };
 		963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E81A52D26600FFBBEA /* CollectionViewController.swift */; };
+		9677B9421A69424900BD2411 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9677B9411A69424900BD2411 /* Venue.swift */; };
 		96C6BB3F1A5F7C6500CB9090 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */; };
 		96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */; };
 		96C6BB431A61082600CB9090 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB421A61082600CB9090 /* DetailViewController.swift */; };
@@ -76,6 +77,7 @@
 /* Begin PBXFileReference section */
 		963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkCollectionViewCell.swift; sourceTree = "<group>"; };
 		963086E81A52D26600FFBBEA /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		9677B9411A69424900BD2411 /* Venue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
 		96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
 		96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTCollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
 		96C6BB421A61082600CB9090 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */,
+				9677B9411A69424900BD2411 /* Venue.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				96F740171A50F33D00025807 /* artchive.xcdatamodeld in Sources */,
 				963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */,
 				96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */,
+				9677B9421A69424900BD2411 /* Venue.swift in Sources */,
 				96C6BB431A61082600CB9090 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,22 +12,17 @@ import QuadratTouch
 
 class LocationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate{
     
-    class Venue{
-        var name:String!
-        var address:String!
-        
-        init(name:String, address:String){
-            self.name = name
-            self.address = address
-        }
-    }
-    
+    var selectedVenue:Venue?
+    private var locationManager:CLLocationManager!
+    private var session: Session!
+    private var venues:[Venue]!
     
     @IBOutlet weak var currentLocationLabel: UITextField!
     @IBOutlet weak var tableView: UITableView!
-    var locationManager:CLLocationManager!
-    private var session: Session!
-    private var venues:[Venue]!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    
+    @IBAction func saveLocation(sender: AnyObject) {
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +43,7 @@ class LocationViewController: UIViewController, UITableViewDelegate, UITableView
             locationManager.requestWhenInUseAuthorization()
         }
         else if status == .AuthorizedWhenInUse || status == .Authorized {
+            loadingIndicator.startAnimating()
             locationManager.startUpdatingLocation()
         }
         else {
@@ -72,6 +68,7 @@ class LocationViewController: UIViewController, UITableViewDelegate, UITableView
         var locValue:CLLocationCoordinate2D = manager.location.coordinate
         println("\(locValue.longitude) \(locValue.latitude)")
         
+        
         reverseGeocode(manager.location)
         browseVenues()
         
@@ -79,12 +76,13 @@ class LocationViewController: UIViewController, UITableViewDelegate, UITableView
         locationManager.stopUpdatingLocation()
     }
     
+    // Get the address of the current GPS location and set that to location label
     func reverseGeocode(location:CLLocation){
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location , completionHandler: {
             (placemarks, error) in
             var placemark:CLPlacemark = placemarks.last as CLPlacemark
-            
+            println("address: \(placemark.thoroughfare)")
             self.currentLocationLabel.text = placemark.thoroughfare
         })
     }
@@ -107,13 +105,10 @@ class LocationViewController: UIViewController, UITableViewDelegate, UITableView
                 for (index: String, item: JSON) in json["groups"][0]["items"] {
                     var venue:Venue = Venue(name: item["venue"]["name"].stringValue, address: item["venue"]["location"]["address"].stringValue)
                     self.venues.append(venue)
-//                    print(venue.name)
-//                    println("\n")
-//                    print(venue.address)
-//                    println("\n")
                 }
                 
                 self.tableView.reloadData()
+                self.loadingIndicator.stopAnimating()
         })
         
         task.start()
@@ -178,17 +173,21 @@ class LocationViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let venue = venues[indexPath.row]
+        self.selectedVenue = venue
         
+        self.performSegueWithIdentifier("unwindToAddArtwork", sender: self)
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-    }
-    */
+//        println("sup")
+//    }
+    
 
 }

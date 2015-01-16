@@ -25,7 +25,8 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
     // Actions & Outlets
     @IBOutlet weak var artTitle: UITextField!
     @IBOutlet weak var artArtist: UITextField!
-    @IBOutlet weak var artLocation: UITextField!
+    @IBOutlet weak var artLocationName: UILabel!
+//    @IBOutlet weak var artLocationAddress: UILabel!
     @IBOutlet weak var artYear: UITextField!
     @IBOutlet weak var imageView: UIImageView!
     
@@ -35,7 +36,13 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
     }
     
     @IBAction func unwindToAddArtwork(segue:UIStoryboardSegue){
-        
+        if segue.identifier == "unwindToAddArtwork" {
+            let controller:LocationViewController = segue.sourceViewController as LocationViewController
+            
+            if let venue = controller.selectedVenue{
+                artLocationName.text = venue.name + "\n" + venue.address
+            }
+        }
     }
 
     
@@ -51,11 +58,7 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
             if !artArtist.text.isEmpty {
                 
             }
-            
-            if !artLocation.text.isEmpty {
-                
-            }
-            
+                       
             if !artYear.text.isEmpty {
                 
             }
@@ -107,6 +110,9 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.estimatedRowHeight = 72
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         // Get context
         var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
