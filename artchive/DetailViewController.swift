@@ -17,8 +17,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
      
     var artwork: Artwork!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,9 +37,10 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             })
         }
         
+        title = artwork.title
         
-//        tableView.estimatedRowHeight = 36.0
-//        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 36.0
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -70,13 +69,14 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             cell.valueLabel.text = artwork.title
         case 1:
             cell.fieldLabel.text = "Artist"
-//            cell.valueLabel.text = restaurant.type
+            
+            cell.valueLabel.text = artwork.artistName
         case 2:
             cell.fieldLabel.text = "Location"
-//            cell.valueLabel.text = restaurant.location
+            cell.valueLabel.text = artwork.locationName + "\n" + artwork.locationAddress
         case 3:
             cell.fieldLabel.text = "Year"
-//            cell.valueLabel.text = (restaurant.isVisited.boolValue) ? "Yes, I’ve been here before" : "No"
+            cell.valueLabel.text = artwork.year
         default:
             cell.fieldLabel.text = ""
             cell.valueLabel.text = ""

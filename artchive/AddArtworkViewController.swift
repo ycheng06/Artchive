@@ -19,7 +19,7 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
     var albumFound: Bool = false
     var assetCollection: PHAssetCollection!
     var chosenImage:UIImage?
-    
+    var venue:Venue?
     var context:NSManagedObjectContext!
     
     // Actions & Outlets
@@ -41,6 +41,7 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
             
             if let venue = controller.selectedVenue{
                 artLocationName.text = venue.name + "\n" + venue.address
+                self.venue = venue
             }
         }
     }
@@ -56,11 +57,26 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
             newArtwork.title = titleText
             
             if !artArtist.text.isEmpty {
-                
+                newArtwork.artistName = artArtist.text
+            }
+            else {
+                newArtwork.artistName = ""
             }
                        
             if !artYear.text.isEmpty {
-                
+                newArtwork.year = artYear.text
+            }
+            else {
+                newArtwork.year = ""
+            }
+            
+            if let selectedVenue = self.venue {
+                newArtwork.locationAddress = selectedVenue.address
+                newArtwork.locationName = selectedVenue.name
+            }
+            else {
+                newArtwork.locationName = ""
+                newArtwork.locationAddress = ""
             }
 
             if let image = chosenImage{
@@ -77,7 +93,6 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
                     assetPlaceHolder = createAssetRequest.placeholderForCreatedAsset
                     
                     newArtwork.imgRef = assetPlaceHolder?.localIdentifier
-                    println(newArtwork.imgRef)
                     
                     let albumChangeRequest = PHAssetCollectionChangeRequest(forAssetCollection: self.assetCollection)
                     
@@ -95,17 +110,25 @@ class AddArtworkViewController: UITableViewController, UINavigationControllerDel
                     }
                 })
             }
+            else {
+                saveAlert("We can't proceed with out an artwork image")
+            }
         }
         else{
-            // spawn UIAlert here
-            var alert = UIAlertController(title: "Oops", message: "We can't proceed as you forgot to fill in the title. This field is mandatory", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {
-                (alertAction) in
-                alert.dismissViewControllerAnimated(true, completion: nil)
-            }))
-            
-            self.presentViewController(alert, animated: true, completion: nil)
+            saveAlert("We can't proceed as you forgot to fill in the title. This field is mandatory")
         }
+    }
+    
+    func saveAlert(alertMessage:String){
+        // spawn UIAlert here
+        var alert = UIAlertController(title: "Oops", message: alertMessage, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: {
+            (alertAction) in
+            alert.dismissViewControllerAnimated(true, completion: nil)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+
     }
     
     override func viewDidLoad() {

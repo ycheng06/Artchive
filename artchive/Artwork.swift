@@ -11,7 +11,11 @@ import CoreData
 
 class Artwork:NSManagedObject{
     @NSManaged var title:String!
+    @NSManaged var artistName:String!
+    @NSManaged var year:String!
     @NSManaged var imgRef:String!
+    @NSManaged var locationName:String!
+    @NSManaged var locationAddress:String!
     @NSManaged var originWidth:NSNumber!
     @NSManaged var originHeight:NSNumber!
 
