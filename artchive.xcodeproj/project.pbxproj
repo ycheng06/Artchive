@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		963086E71A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */; };
 		963086E91A52D26600FFBBEA /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963086E81A52D26600FFBBEA /* CollectionViewController.swift */; };
+		9652C9F01A78AD0400A32DBE /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9652C9EF1A78AD0400A32DBE /* Keys.plist */; };
 		9677B9421A69424900BD2411 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9677B9411A69424900BD2411 /* Venue.swift */; };
 		96C6BB3F1A5F7C6500CB9090 /* Artwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */; };
 		96C6BB411A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */; };
@@ -77,6 +78,7 @@
 /* Begin PBXFileReference section */
 		963086E61A52CFD700FFBBEA /* ArtworkCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArtworkCollectionViewCell.swift; sourceTree = "<group>"; };
 		963086E81A52D26600FFBBEA /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		9652C9EF1A78AD0400A32DBE /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		9677B9411A69424900BD2411 /* Venue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
 		96C6BB3E1A5F7C6500CB9090 /* Artwork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artwork.swift; sourceTree = "<group>"; };
 		96C6BB401A5FB2BE00CB9090 /* CHTCollectionViewWaterfallLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CHTCollectionViewWaterfallLayout.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				96F740151A50F33D00025807 /* artchive.xcdatamodeld */,
 				96F73FC91A4C2BEA00025807 /* Images.xcassets */,
 				96F73FC01A4C2BEA00025807 /* Supporting Files */,
+				9652C9EF1A78AD0400A32DBE /* Keys.plist */,
 			);
 			path = artchive;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9652C9F01A78AD0400A32DBE /* Keys.plist in Resources */,
 				96F73FC81A4C2BEA00025807 /* Main.storyboard in Resources */,
 				96F73FCD1A4C2BEA00025807 /* LaunchScreen.xib in Resources */,
 				96F73FCA1A4C2BEA00025807 /* Images.xcassets in Resources */,
@@ -518,7 +522,7 @@
 				INFOPLIST_FILE = artchive/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -530,7 +534,7 @@
 				INFOPLIST_FILE = artchive/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

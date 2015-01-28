@@ -14,7 +14,7 @@ import QuadratTouch
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var keys: NSDictionary?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -29,9 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         
         // Foursquare API
+        let bundle = NSBundle.mainBundle().pathForResource("Keys", ofType: "plist")
+        keys = NSDictionary(contentsOfFile: bundle!)
+
+        let foursquareClientId = keys?.objectForKey("foursquareClientId") as String
+        let foursquareClientSecret = keys?.objectForKey("foursquareClientSecret") as String
+
         let client = Client(
-            clientID:       "DEGHVQWY3VCJJZB2VDHYEG1LXZ4JJK1CEPN3OZWHQFYOAKHD",
-            clientSecret:   "0OLYHEPLGMXRTAMWRCHKY4N2TKHTS15ERJGBCFIOVL1NVGI2",
+            clientID:       foursquareClientId,
+            clientSecret:   foursquareClientSecret,
             redirectURL:    "artchive://foursquare")
         var configuration = Configuration(client:client)
         configuration.mode = "foursquare"

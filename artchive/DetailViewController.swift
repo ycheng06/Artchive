@@ -19,9 +19,6 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        
         // Get an instance of PHImageManager
         let imageManager = PHImageManager.defaultManager()
         
@@ -37,9 +34,19 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
             })
         }
         
+        // Set title of the view
         title = artwork.title
         
-        tableView.estimatedRowHeight = 36.0
+        // Remove extra separator
+        tableView.tableFooterView = UIView(frame: CGRectZero)
+        
+        // Change color of the separator
+        tableView.separatorColor = UIColor(red:
+            240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0,
+            alpha: 0.8)
+        
+        // Self sizing cell
+        tableView.estimatedRowHeight = 45.0
         tableView.rowHeight = UITableViewAutomaticDimension
     }
     

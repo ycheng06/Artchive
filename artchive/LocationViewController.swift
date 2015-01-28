@@ -91,9 +91,10 @@ class LocationViewController: UIViewController, UITableViewDelegate, UITableView
         var parameters:Parameters = Parameters()
         let longitude = locationManager.location.coordinate.longitude
         let latitude = locationManager.location.coordinate.latitude
-        parameters.updateValue("\(longitude),\(latitude)", forKey: Parameter.ll)
-//        parameters.updateValue("42.339878,-71.094536", forKey: Parameter.ll)
-//        parameters.updateValue("browse", forKey: Parameter.intent)
+
+//        parameters.updateValue("\(latitude),\(longitude)", forKey: Parameter.ll)
+        parameters.updateValue("42.339878,-71.094536", forKey: Parameter.ll)
+//        parameters.updateValue("browse", f9orKey: Parameter.intent)
 //        parameters.updateValue("2000", forKey: Parameter.radius)
         parameters.updateValue("Arts", forKey: Parameter.query)
         
